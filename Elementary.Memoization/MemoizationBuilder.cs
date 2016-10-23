@@ -47,7 +47,7 @@
 
         #region Builder allows to select a storage factory
 
-        public partial class SelectStorageFactory
+        public class SelectStorageFactory
         {
             private readonly MemoizationBuilder builder;
 
