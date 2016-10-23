@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
 
-    public sealed partial class MemoizationBuilder
+    public sealed class MemoizationBuilder
     {
         private IMemoizationDelegateFactory memoizationDelegateFactory = new MemoizeWithTuplesFactory();
 
@@ -14,7 +14,7 @@
         #region Builder allows to select the delegate builder factory
 
         /// <summary>
-        /// Use System.Tuple as a key for the mapping of parameters to calculation result.
+        /// Use <see cref="System.Tuple"/> as a key for the mapping of parameters to calculation result.
         /// This is the recommended method for memoization.
         /// </summary>
         /// <returns>The next builder step: selection of a memoization container provider</returns>
@@ -28,7 +28,7 @@
         /// to a delegate mapping the next parameter to a delegate and so on, until the last parameter
         /// maps to the result of the calculation.
         /// This mapping method can be very fast for retrieval of data but slow for building new tree branches.
-        /// Use it only after comparison of performance with MapFromParameterTuples.
+        /// Use it only after comparison of performance with <see cref="MapFromParameterTuples"/>.
         /// </summary>
         /// <returns>The next builder step: selection of a memoization container provider</returns>
         public SelectStorageFactory MapFromCurriedParameters()
@@ -66,7 +66,7 @@
             }
 
             /// <summary>
-            /// ONly one (latest) value is memoized.
+            /// Only one (latest) value is memoized.
             /// </summary>
             /// <returns>The final step of the memoization delegate builder</returns>
             public CreateFinalDelegate StoreLatestResultOnlyWithStrongReferences()
@@ -75,7 +75,7 @@
             }
 
             /// <summary>
-            /// The referces to teh result are stired in a IDictionary implementation provided by the caller.
+            /// The references to the result are stored in an IDictionary implementation provided by the caller.
             /// This allows sharing or reuse of an existing memoization container.
             /// </summary>
             /// <typeparam name="K"></typeparam>
@@ -98,6 +98,16 @@
             }
 
             /// <summary>
+            /// Use string references and a <see cref="ConcurrentDictionary{TKey, TValue}"/> instance. This provides a threadsafe
+            /// memoization container if the memoized delegate is shared between multiple threads.
+            /// </summary>
+            /// <returns>The final step of the memoization delegate builder</returns>
+            public CreateFinalDelegate StoreInConcurrentDictionaryWithStrongReferences()
+            {
+                return this.StoreIn(new MemoizeStrongReferencesThreadSafeStrategy());
+            }
+
+            /// <summary>
             /// Use a custom memoization container provider implementation.
             /// </summary>
             /// <param name="memoizationContainerProvider">Custom memoization provider implementation</param>
@@ -105,7 +115,7 @@
             public CreateFinalDelegate StoreIn(IMemoizationContainerStrategy memoizationContainerProvider)
             {
                 if (memoizationContainerProvider == null)
-                    throw new ArgumentNullException("memoizationContainerProvider");
+                    throw new ArgumentNullException(nameof(memoizationContainerProvider));
 
                 this.builder.memoizationStorageFactory = memoizationContainerProvider;
 
