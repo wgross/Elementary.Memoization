@@ -162,7 +162,6 @@
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidCastException))]
         public void Memoize_2P_in_existing_dictionary_with_wromg_type_fails()
         {
             // ARRANGE
@@ -171,10 +170,13 @@
 
             // ACT
 
-            Func<int, int, string> memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
-                .From<int, int, string>(toString2);
+            Assert.Throws<InvalidCastException>(() =>
+            {
+                Func<int, int, string> memoized = new MemoizationBuilder()
+                    .MapFromParameterTuples()
+                    .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                    .From<int, int, string>(toString2);
+            });
         }
     }
 }
