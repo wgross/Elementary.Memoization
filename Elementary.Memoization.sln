@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Memoization.Test", "Elementary.Memoization.Test\Elementary.Memoization.Test.csproj", "{506AB2A3-B990-442F-8339-459BC8A5921A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Memoization.PCL", "Elementary.Memoization.PCL\Elementary.Memoization.PCL.csproj", "{84D20595-3020-4D19-8E79-89ED585A9947}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0DB36228-D069-4C8F-A93A-5F736B975A34}"
+	ProjectSection(SolutionItems) = preProject
+		AssemblyInfo.Shared.cs = AssemblyInfo.Shared.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{506AB2A3-B990-442F-8339-459BC8A5921A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506AB2A3-B990-442F-8339-459BC8A5921A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506AB2A3-B990-442F-8339-459BC8A5921A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506AB2A3-B990-442F-8339-459BC8A5921A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84D20595-3020-4D19-8E79-89ED585A9947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D20595-3020-4D19-8E79-89ED585A9947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D20595-3020-4D19-8E79-89ED585A9947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D20595-3020-4D19-8E79-89ED585A9947}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
