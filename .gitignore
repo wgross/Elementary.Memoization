@@ -1,0 +1,9 @@
+packages
+.hg
+.hgignore
+.vs/
+**/obj
+**/bin
+**.suo
+**.lock.json
+/NuGet
