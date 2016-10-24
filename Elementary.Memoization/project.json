@@ -3,6 +3,8 @@
   "version": "1.2.0",
   "copyright": "Copyright ©  2016",
   "description": "Provides a lightweight, fast and extensible micro cache through memoization",
+  "authors": [ "Wolfgang Gross" ],  
+  "licenseUrl": "",
   "supports": {},
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
