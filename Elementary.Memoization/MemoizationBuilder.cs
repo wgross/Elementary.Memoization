@@ -3,8 +3,12 @@
     using Elementary.Memoization.ContainerStrategies;
     using Elementary.Memoization.DelegateFactories;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
-
+    
+    /// <summary>
+    /// Build for creation a memoized delegate from a delegate using a soecified currying and storage strategy.
+    /// </summary>
     public sealed class MemoizationBuilder
     {
         private IMemoizationDelegateFactory memoizationDelegateFactory = new MemoizeWithTuplesFactory();
@@ -47,6 +51,9 @@
 
         #region Builder allows to select a storage factory
 
+        /// <summary>
+        /// Extends the fluent builder api with functions to define the storage strategy for the memoized calculation results.
+        /// </summary>
         public class SelectStorageFactory
         {
             private readonly MemoizationBuilder builder;
@@ -127,6 +134,9 @@
 
         #region Build memoization delegate with selected memoization and reference management strategy
 
+        /// <summary>
+        /// Create a proxy delegate of the given function using the chosen storage and currying implementation.
+        /// </summary>
         public class CreateFinalDelegate
         {
             private readonly MemoizationBuilder builder;
@@ -136,36 +146,106 @@
                 this.builder = builder;
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving seven parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="P3">Type of third parameter</typeparam>
+            /// <typeparam name="P4">Type of fourth parameter</typeparam>
+            /// <typeparam name="P5">Type of fifth parameter</typeparam>
+            /// <typeparam name="P6">Type of sixth parameter</typeparam>
+            /// <typeparam name="P7">Type of seventh parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, P3, P4, P5, P6, P7, R> From<P1, P2, P3, P4, P5, P6, P7, R>(Func<P1, P2, P3, P4, P5, P6, P7, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, P3, P4, P5, P6, P7, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving six parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="P3">Type of third parameter</typeparam>
+            /// <typeparam name="P4">Type of fourth parameter</typeparam>
+            /// <typeparam name="P5">Type of fifth parameter</typeparam>
+            /// <typeparam name="P6">Type of sixth parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, P3, P4, P5, P6, R> From<P1, P2, P3, P4, P5, P6, R>(Func<P1, P2, P3, P4, P5, P6, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, P3, P4, P5, P6, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving five parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="P3">Type of third parameter</typeparam>
+            /// <typeparam name="P4">Type of fourth parameter</typeparam>
+            /// <typeparam name="P5">Type of fifth parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, P3, P4, P5, R> From<P1, P2, P3, P4, P5, R>(Func<P1, P2, P3, P4, P5, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, P3, P4, P5, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving four parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="P3">Type of third parameter</typeparam>
+            /// <typeparam name="P4">Type of fourth parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, P3, P4, R> From<P1, P2, P3, P4, R>(Func<P1, P2, P3, P4, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, P3, P4, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving three parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="P3">Type of third parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, P3, R> From<P1, P2, P3, R>(Func<P1, P2, P3, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, P3, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving two parameters
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="P2">Type of second parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, P2, R> From<P1, P2, R>(Func<P1, P2, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, P2, R>(toMemoize, this.builder.memoizationStorageFactory);
             }
 
+            /// <summary>
+            /// Creates a memoization delegate from a function receiving one parameter
+            /// </summary>
+            /// <typeparam name="P1">Type of first parameter</typeparam>
+            /// <typeparam name="R">Type of result</typeparam>
+            /// <param name="toMemoize">Function to memoize results of</param>
+            /// <returns>A memoizing proxy delegate for<paramref name="toMemoize"/></returns>
             public Func<P1, R> From<P1, R>(Func<P1, R> toMemoize)
             {
                 return this.builder.memoizationDelegateFactory.From<P1, R>(toMemoize, this.builder.memoizationStorageFactory);

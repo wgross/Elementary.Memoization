@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Provides factory methods for memoizing delegates.
+    /// Provides factory methods for mememoizing delegates.
     /// Memoization is built with Framework Tuples stored in a Dictionary. This is the common way to implement memoization in C#/.Net.
     /// Building the memoization structures is faster as delegate based memoization but the lookup is slower. Most probably because of
     /// the calculation of the hash code of the tuples.

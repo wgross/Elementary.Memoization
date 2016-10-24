@@ -3,8 +3,8 @@
     using System;
 
     /// <summary>
-    /// Provides factory methods for memoizing delegates.
-    /// Memoization is built up by recursivly memoizing any parameter until a curriyed version of the original delegates is completed.
+    /// Provides factory methods for mememoizing delegates.
+    /// Memoization is built up by recursivly mememoizing any parameter until a curriyed version of the original delegates is completed.
     /// The curryied delegate is wrapped with an additional lambda providing a call signature expected by C# programmers:
     /// n Parameters at one delegates instead 1 paramet at a delegate, returning a delegate receiving n-1 parameters.
     /// Building is more expensive as with memoization based on Tuples, but the lookup is fast as hell!
