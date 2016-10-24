@@ -1,10 +1,9 @@
 ﻿{
   "title": "Elementary.Memoization",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "copyright": "Copyright ©  2016",
   "description": "Provides a lightweight, fast and extensible micro cache through memoization",
-  "authors": [ "Wolfgang Gross" ],  
-  "licenseUrl": "",
+  "authors": [ "Wolfgang Gross" ],
   "supports": {},
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
@@ -13,6 +12,13 @@
   "buildOptions": {
     "warningsAsErrors": true,
     "xmlDoc": true
+  },
+  "packOptions": {
+    "licenseUrl": "https://raw.githubusercontent.com/wgross/Elementary.Memoization/master/License.md",
+    "tags": [ "cache", "memoization" ],
+    "releaseNotes": "Changed target platform to .Net Standard 1.1",
+    "owners": [ "Wolfgang Gross" ],
+    "repository": { "url": "https://github.com/wgross/Elementary.Memoization" }
   },
   "frameworks": {
     "netstandard1.1": {}
