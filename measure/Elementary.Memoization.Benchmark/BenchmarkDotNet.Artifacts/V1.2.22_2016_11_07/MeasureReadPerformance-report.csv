@@ -1,0 +1,5 @@
+Type;Method;Mode;Platform;Jit;Toolchain;Runtime;GcMode;LaunchCount;WarmupCount;TargetCount;Affinity;Median;StdDev
+MeasureReadPerformance;ReadWithTuplesMin;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;1.4612 ms;0.0384 ms
+MeasureReadPerformance;ReadWithTuplesMax;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;71.1881 ms;7.0297 ms
+MeasureReadPerformance;ReadWithCurriedParamsMin;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;1.4213 ms;0.0168 ms
+MeasureReadPerformance;ReadWithCurriedParamsMax;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;64.4450 ms;1.4432 ms
