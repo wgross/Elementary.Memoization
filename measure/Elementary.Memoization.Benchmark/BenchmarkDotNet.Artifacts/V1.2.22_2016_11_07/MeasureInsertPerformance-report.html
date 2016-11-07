@@ -1,0 +1,20 @@
+<pre><code>
+Host Process Environment Information:
+BenchmarkDotNet.Core=v0.9.9.0
+OS=Windows
+Processor=?, ProcessorCount=8
+Frequency=2825537 ticks, Resolution=353.9150 ns, Timer=TSC
+CLR=CORE, Arch=64-bit ? [RyuJIT]
+GC=Concurrent Workstation
+dotnet cli version: 1.0.0-preview2-003131
+</code></pre>
+<pre><code>Type=MeasureInsertPerformance  Mode=Throughput  
+</code></pre>
+
+<table>
+<tr><th>              Method</th><th>Median</th><th>StdDev</th>
+</tr><tr><td> InsertWithTuplesMin</td><td>1.4652 ms</td><td>0.0063 ms</td>
+</tr><tr><td> InsertWithTuplesMax</td><td>72.9065 ms</td><td>1.5345 ms</td>
+</tr><tr><td>InsertWithCurriedParamsMin</td><td>1.4641 ms</td><td>0.0067 ms</td>
+</tr><tr><td>InsertWithCurriedParamsMax</td><td>72.6655 ms</td><td>1.6693 ms</td>
+</tr></table>

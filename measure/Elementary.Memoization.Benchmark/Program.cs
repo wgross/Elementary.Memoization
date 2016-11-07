@@ -7,6 +7,7 @@ namespace Elementary.Memoization.Benchmark
         public static void Main(string[] args)
         {
             BenchmarkRunner.Run<MeasureInsertPerformance>();
+            BenchmarkRunner.Run<MeasureReadPerformance>();
         }
     }
 }

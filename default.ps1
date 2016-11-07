@@ -247,7 +247,7 @@ Task clean -description "The project tree is clean: all artifacts created by the
 Task restore -description "External dependencies are restored.The project is ready to be built." -depends restore_dependencies
 Task build -description "The project is built: all artifacts created by the development tool chain are created" -depends restore,build_assemblies
 Task test -description "The project is tested: all automated tests of the project are run" -depends build,test_assemblies
-Task measure -description "The project is measured: all benchmarls are running" -depends measure_assemblies
+Task measure -description "The project is measured: all benchmarls are running" -depends build_assemblies,measure_assemblies
 Task pack -description "All nuget packages a created" -depends build_packages
 Task publish -description "All atrefacts are published to their destinations" -depends publish_packages
 Task default -depends clean,restore,build,test,pack
