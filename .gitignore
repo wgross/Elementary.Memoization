@@ -8,3 +8,5 @@ packages
 **.lock.json
 /NuGet
 **/TestResult.xml
+.*
+**.log

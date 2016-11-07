@@ -1,0 +1,5 @@
+Type;Method;Mode;Platform;Jit;Toolchain;Runtime;GcMode;LaunchCount;WarmupCount;TargetCount;Affinity;Median;StdDev
+MeasureInsertPerformance;InsertWithTuplesMin;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;1.4652 ms;0.0063 ms
+MeasureInsertPerformance;InsertWithTuplesMax;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;72.9065 ms;1.5345 ms
+MeasureInsertPerformance;InsertWithCurriedParamsMin;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;1.4641 ms;0.0067 ms
+MeasureInsertPerformance;InsertWithCurriedParamsMax;Throughput;Host;Host;Host;Host;Host;Auto;Auto;Auto;Auto;72.6655 ms;1.6693 ms

@@ -1,0 +1,20 @@
+<pre><code>
+Host Process Environment Information:
+BenchmarkDotNet.Core=v0.9.9.0
+OS=Windows
+Processor=?, ProcessorCount=8
+Frequency=2825537 ticks, Resolution=353.9150 ns, Timer=TSC
+CLR=CORE, Arch=64-bit ? [RyuJIT]
+GC=Concurrent Workstation
+dotnet cli version: 1.0.0-preview2-003131
+</code></pre>
+<pre><code>Type=MeasureReadPerformance  Mode=Throughput  
+</code></pre>
+
+<table>
+<tr><th>            Method</th><th>Median</th><th>StdDev</th>
+</tr><tr><td> ReadWithTuplesMin</td><td>1.4612 ms</td><td>0.0384 ms</td>
+</tr><tr><td> ReadWithTuplesMax</td><td>71.1881 ms</td><td>7.0297 ms</td>
+</tr><tr><td>ReadWithCurriedParamsMin</td><td>1.4213 ms</td><td>0.0168 ms</td>
+</tr><tr><td>ReadWithCurriedParamsMax</td><td>64.4450 ms</td><td>1.4432 ms</td>
+</tr></table>
