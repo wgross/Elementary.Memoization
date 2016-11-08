@@ -33,6 +33,13 @@ Task query_workspace -description "Collect infomation about the workspace struct
     } else {   
         $script:packageBuildDirectory = New-Item -Path $PSScriptRoot\.packages -ItemType Directory
     }
+
+    # nuget packages are stored in .packages
+    if(Test-Path $PSScriptRoot\.coverage) {
+        $script:coverageResultsDirectory = Get-Item -Path $PSScriptRoot\.coverage
+    } else {   
+        $script:coverageResultsDirectory = New-Item -Path $PSScriptRoot\.coverage -ItemType Directory
+    }
 }
 
 Task clean_workspace -description "Remove temporary build files which are not removed by other 'clean_<artifact>' tasks" {
@@ -41,6 +48,8 @@ Task clean_workspace -description "Remove temporary build files which are not re
     @(
         # ...test results
         $script:testResultsDirectory
+        # ...coverage results
+        $script:coverageResultsDirectory
         # ...nuget packages
         $script:packageBuildDirectory
 
@@ -149,9 +158,11 @@ Task test_assemblies -description "Run the unit test under 'test'. Output is wri
                 &  $script:dotnet test -xml $testResultFileName
 
             } elseif($testProjectJsonContent.testRunner -eq "nunit") {
+
                 # NUnit: 
                 # the projects directory name is taken as the name of the test result file.
                 &  $script:dotnet test -result:$testResultFileName
+
             } else {
                 "Skipping test project $_ : No test runner defined" | Write-Host -ForegroundColor DarkYellow
             }
@@ -163,6 +174,36 @@ Task test_assemblies -description "Run the unit test under 'test'. Output is wri
 
 } -depends query_workspace
 
+Task test_assemblies_coverage -description "Run the unit test under 'test'. Output is written to .testresults directory" {
+
+    # Get Opencover
+    & $script:nuget install OpenCover -Output $script:coverageResultsDirectory
+    
+    # Get hold on the OpenCover executable
+    $openCoverConsole = Get-ChildItem -Path $script:coverageResultsDirectory -Filter OpenCover.Console.Exe -Recurse | Select-Object -ExpandProperty FullName
+
+    # Run test projects with openCover
+    $script:projectItems.test | ForEach-Object {
+        $projectDirectory = $_.Directory
+        Get-ChildItem "$($_.Directory.FullName)\bin\Debug\netcoreapp1.0\$($_.Directory.BaseName).Dll" -Recurse | ForEach-Object {
+            "test assembly: $_" | Write-Host
+            & $openCoverConsole -oldStyle -target:$script:dotnet -targetdir:$($projectDirectory.FullName) -targetargs:test -register:user -output:$script:coverageResultsDirectory\$($_.BaseName).xml
+        }
+    }
+
+    # Get ReportGenerator
+    & $script:nuget install ReportGenerator -Output $script:coverageResultsDirectory
+
+    # Get Hold on ReportGerenator executable
+    $reportGenerator = Get-ChildItem -Path $script:coverageResultsDirectory -Filter ReportGenerator.Exe -Recurse | Select-Object -ExpandProperty FullName
+
+    # Generate a report for avery coverage file found
+    & $reportGenerator -targetdir:$script:coverageResultsDirectory -reports:([string]::Join(";",(Get-ChildItem -Path $script:coverageResultsDirectory -Filter *.xml | Select-Object -ExpandProperty FullName)))
+
+    # Start b rowser woth coverage result 
+    ii $script:coverageResultsDirectory\index.htm
+
+} -depends query_workspace
 
 Task report_test_assemblies -description "Retrieves a report of failed tests" {
     
