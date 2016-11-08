@@ -23,8 +23,8 @@
             this.toStringCalled = 0;
 
             this.memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInDictionaryWithStrongReferences()
+                .UsingTuples()
+                .WithinDictionary()
                 .From<int, string>(this.toString);
         }
 

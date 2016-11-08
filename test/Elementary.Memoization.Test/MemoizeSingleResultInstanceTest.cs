@@ -25,8 +25,8 @@
             this.toStringCalled = 0;
 
             this.memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreLatestResultOnlyWithStrongReferences()
+                .UsingTuples()
+                .LatestResultOnly()
                 .From<int, string>(this.toString);
         }
 

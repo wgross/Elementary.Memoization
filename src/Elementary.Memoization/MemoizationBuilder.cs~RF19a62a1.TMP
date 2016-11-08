@@ -13,12 +13,7 @@
     {
         private IMemoizationDelegateFactory memoizationDelegateFactory = new MemoizeWithTuplesFactory();
 
-        private IMemoizationContainerStrategy memoizationStorageFactory = new MemoizeWithinDictionaryStrategy();
-
-        /// <summary>
-        /// Produces a default memoization setup: "Tuples in dictionary" which should fit most memoizatin szenarios.
-        /// </summary>
-        public static BuildDelegate Default => new BuildDelegate(new MemoizationBuilder());
+        private IMemoizationContainerStrategy memoizationStorageFactory = new MemoizeInDictionaryStrategy();
 
         #region Builder allows to select the delegate builder factory
 
@@ -72,16 +67,16 @@
             /// The references of the result value are stored in strong references (if result type is a reference type)
             /// </summary>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate WithinDictionary()
+            public CreateFinalDelegate WithinDictionary()
             {
-                return this.In(new MemoizeWithinDictionaryStrategy());
+                return this.In(new MemoizeInDictionaryStrategy());
             }
 
             /// <summary>
             /// Only one (latest) value is memoized.
             /// </summary>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate LatestResultOnly()
+            public CreateFinalDelegate StoreLatestResultOnlyWithStrongReferences()
             {
                 return this.In(new MemoizeLatestResultOnlyStrategy());
             }
@@ -94,9 +89,9 @@
             /// <typeparam name="V"></typeparam>
             /// <param name="memoizationContainer"></param>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate Within<K, V>(IDictionary<K, V> memoizationContainer)
+            public CreateFinalDelegate Within<K, V>(IDictionary<K, V> memoizationContainer)
             {
-                return this.In(new MemoizeWithinProvidedDictionaryStrategy(memoizationContainer));
+                return this.In(new MemoizeInExistingDictionaryStrategy(memoizationContainer));
             }
 
             /// <summary>
@@ -104,9 +99,9 @@
             /// Use this storage container if Memoization shall not interfere with the garbage collector.
             /// </summary>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate WithinDictionaryWithWeakReferences()
+            public CreateFinalDelegate WithinDictionaryWithWeakReferences()
             {
-                return this.In(new MemoizeWithinDictionaryWithWeakReferencesStrategy());
+                return this.In(new MemoizeInDictionaryWeakStrategy());
             }
 
             /// <summary>
@@ -114,9 +109,9 @@
             /// memoization container if the memoized delegate is shared between multiple threads.
             /// </summary>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate WithinConcurrentDictionary()
+            public CreateFinalDelegate WithinConcurrentDictionary()
             {
-                return this.In(new MemoizeWithinConcurrentDictionaryStrategy());
+                return this.In(new MemoizeStrongReferencesThreadSafeStrategy());
             }
 
             /// <summary>
@@ -124,14 +119,14 @@
             /// </summary>
             /// <param name="memoizationContainerProvider">Custom memoization provider implementation</param>
             /// <returns>The final step of the memoization delegate builder</returns>
-            public BuildDelegate In(IMemoizationContainerStrategy memoizationContainerProvider)
+            public CreateFinalDelegate In(IMemoizationContainerStrategy memoizationContainerProvider)
             {
                 if (memoizationContainerProvider == null)
                     throw new ArgumentNullException(nameof(memoizationContainerProvider));
 
                 this.builder.memoizationStorageFactory = memoizationContainerProvider;
 
-                return new BuildDelegate(this.builder);
+                return new CreateFinalDelegate(this.builder);
             }
         }
 
@@ -142,11 +137,11 @@
         /// <summary>
         /// Create a proxy delegate of the given function using the chosen storage and currying implementation.
         /// </summary>
-        public class BuildDelegate
+        public class CreateFinalDelegate
         {
             private readonly MemoizationBuilder builder;
 
-            internal BuildDelegate(MemoizationBuilder builder)
+            internal CreateFinalDelegate(MemoizationBuilder builder)
             {
                 this.builder = builder;
             }

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    internal sealed class MemoizeInDictionaryStrategy : IMemoizationContainerStrategy
+    internal sealed class MemoizeWithinDictionaryStrategy : IMemoizationContainerStrategy
     {
         public Func<K, V> CreateNew<K, V>(Func<K, V> toMemoize)
         {

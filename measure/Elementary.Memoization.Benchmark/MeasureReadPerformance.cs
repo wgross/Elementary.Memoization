@@ -23,8 +23,8 @@ namespace Elementary.Memoization.Benchmark
             {
                 this.parameterValues = Enumerable.Range(1, numberOfOperations+6).ToArray();
 
-                this.memoizedWithTupelsMax = new MemoizationBuilder().MapFromParameterTuples()
-                    .StoreInDictionaryWithStrongReferences()
+                this.memoizedWithTupelsMax = new MemoizationBuilder().UsingTuples()
+                    .WithinDictionary()
                     .From<int, int, int, int, int, int, int, int>(this.ExpensiveCalculationMax);
 
                 for (int i = 0; i < numberOfOperations; i++)
@@ -37,15 +37,15 @@ namespace Elementary.Memoization.Benchmark
                             this.parameterValues[i + 5],
                             this.parameterValues[i + 6]);
 
-                this.memoizedWithTupelsMin = new MemoizationBuilder().MapFromParameterTuples()
-                    .StoreInDictionaryWithStrongReferences()
+                this.memoizedWithTupelsMin = new MemoizationBuilder().UsingTuples()
+                    .WithinDictionary()
                     .From<int, int>(this.ExpensiveCalculationMin);
 
                 for (int i = 0; i < numberOfOperations; i++)
                     this.memoizedWithTupelsMin(this.parameterValues[i]);
 
-                this.memoizedWithCurriedParamsMax = new MemoizationBuilder().MapFromCurriedParameters()
-                    .StoreInDictionaryWithStrongReferences()
+                this.memoizedWithCurriedParamsMax = new MemoizationBuilder().UsingCurrying()
+                    .WithinDictionary()
                     .From<int, int, int, int, int, int, int, int>(this.ExpensiveCalculationMax);
 
                 for (int i = 0; i < numberOfOperations; i++)
@@ -58,8 +58,8 @@ namespace Elementary.Memoization.Benchmark
                             this.parameterValues[i + 5],
                             this.parameterValues[i + 6]);
 
-                this.memoizedWithCurriedParamsMin = new MemoizationBuilder().MapFromCurriedParameters()
-                    .StoreInDictionaryWithStrongReferences()
+                this.memoizedWithCurriedParamsMin = new MemoizationBuilder().UsingCurrying()
+                    .WithinDictionary()
                     .From<int, int>(this.ExpensiveCalculationMin);
 
                 for (int i = 0; i < numberOfOperations; i++)
