@@ -163,6 +163,22 @@ Task test_assemblies -description "Run the unit test under 'test'. Output is wri
 
 } -depends query_workspace
 
+
+Task report_test_assemblies -description "Retrieves a report of failed tests" {
+    
+    # The task is seperated from the 'test_assemblies' task to make it callable independently
+
+    Get-ChildItem -Path $script:testResultsDirectory -Filter *.xml | ForEach-Object {        
+        $failedTests = (Select-Xml -Path $_.FullName -XPath "//test-case[@result != 'Passed']").Node 
+        if($failedTests) {
+            $failedTests | Select name,result
+        } else {
+            "No test failed: $($_.Name)" | Write-Host -ForegroundColor Green
+        }
+    }
+
+} -depends query_workspace
+
 Task measure_assemblies -description "Run the benchmark projects under measure. Output is written to the .benchmark directory" {
     
     $script:projectItems.measure | ForEach-Object {
@@ -242,27 +258,10 @@ Task report_nugetConfig -description "Extracts some config values from the effec
 
 #endregion
 
-#region Task for reporting the state of the workspace 
-
-Task report_test_assemblies -description "Retrieves a report of failed tests" {
-    
-    Get-ChildItem -Path $script:testResultsDirectory -Filter *.xml | ForEach-Object {        
-        $failedTests = (Select-Xml -Path $_.FullName -XPath "//test-case[@result != 'Passed']").Node 
-        if($failedTests) {
-            $failedTests | Select name,result
-        } else {
-            "No test failed: $($_.Name)" | Write-Host -ForegroundColor Green
-        }
-    }
-
-} -depends query_workspace
-
-#endregion
-
 Task clean -description "The project tree is clean: all artifacts created by the development tool chain are removed"  -depends clean_workspace,clean_assemblies
 Task restore -description "External dependencies are restored.The project is ready to be built." -depends restore_dependencies
 Task build -description "The project is built: all artifacts created by the development tool chain are created" -depends restore,build_assemblies
-Task test -description "The project is tested: all automated tests of the project are run" -depends build,test_assemblies
+Task test -description "The project is tested: all automated tests of the project are run" -depends build,test_assemblies,report_test_assemblies
 Task measure -description "The project is measured: all benchmarls are running" -depends build_assemblies,measure_assemblies
 Task pack -description "All nuget packages are built" -depends build_packages
 Task publish -description "All atrefacts are published to their destinations" -depends publish_packages
