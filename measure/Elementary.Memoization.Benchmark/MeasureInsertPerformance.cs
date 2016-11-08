@@ -20,20 +20,20 @@ namespace Elementary.Memoization.Benchmark
         [Setup]
         public void SetupAllBenchmarks()
         {
-            this.memoizedWithTupelsMax = new MemoizationBuilder().MapFromParameterTuples()
-                .StoreInDictionaryWithStrongReferences()
+            this.memoizedWithTupelsMax = new MemoizationBuilder().UsingTuples()
+                .WithinDictionary()
                 .From<int, int, int, int, int, int, int, int>(this.ExpensiveCalculationMax);
 
-            this.memoizedWithTupelsMin = new MemoizationBuilder().MapFromParameterTuples()
-                .StoreInDictionaryWithStrongReferences()
+            this.memoizedWithTupelsMin = new MemoizationBuilder().UsingTuples()
+                .WithinDictionary()
                 .From<int, int>(this.ExpensiveCalculationMin);
 
-            this.memoizedWithCurriedParamsMax = new MemoizationBuilder().MapFromCurriedParameters()
-                .StoreInDictionaryWithStrongReferences()
+            this.memoizedWithCurriedParamsMax = new MemoizationBuilder().UsingCurrying()
+                .WithinDictionary()
                 .From<int, int, int, int, int, int, int, int>(this.ExpensiveCalculationMax);
 
-            this.memoizedWithCurriedParamsMin = new MemoizationBuilder().MapFromCurriedParameters()
-                .StoreInDictionaryWithStrongReferences()
+            this.memoizedWithCurriedParamsMin = new MemoizationBuilder().UsingCurrying()
+                .WithinDictionary()
                 .From<int, int>(this.ExpensiveCalculationMin);
 
             this.parameterValues = Enumerable.Range(1, numberOfOperations+6).ToArray();

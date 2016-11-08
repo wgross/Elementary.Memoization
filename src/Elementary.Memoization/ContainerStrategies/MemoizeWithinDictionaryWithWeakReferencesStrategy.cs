@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    internal sealed class MemoizeInDictionaryWeakStrategy : IMemoizationContainerStrategy
+    internal sealed class MemoizeWithinDictionaryWithWeakReferencesStrategy : IMemoizationContainerStrategy
     {
         public Dictionary<K, V> CreateDictionary<K, V>()
         {

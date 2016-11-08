@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    internal sealed class MemoizeInExistingDictionaryStrategy : IMemoizationContainerStrategy
+    internal sealed class MemoizeWithinProvidedDictionaryStrategy : IMemoizationContainerStrategy
     {
-        public MemoizeInExistingDictionaryStrategy(object dictionaryToUse)
+        public MemoizeWithinProvidedDictionaryStrategy(object dictionaryToUse)
         {
             this.dictionary = dictionaryToUse;
         }

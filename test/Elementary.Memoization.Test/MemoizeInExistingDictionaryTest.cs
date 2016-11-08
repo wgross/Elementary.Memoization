@@ -39,8 +39,8 @@
             // ACT
 
             Func<int, string> memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                .UsingTuples()
+                .Within(memoizationContainer)
                 .From<int, string>(toString);
 
             // ASSERT
@@ -81,8 +81,8 @@
             Dictionary<int, string> memoizationContainer = new Dictionary<int, string>();
 
             Func<int, string> memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                .UsingTuples()
+                .Within(memoizationContainer)
                 .From<int, string>(toString);
 
             // ACT
@@ -105,8 +105,8 @@
             // ACT
 
             Func<int, int, string> memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                .UsingTuples()
+                .Within(memoizationContainer)
                 .From<int, int, string>(toString2);
 
             // ASSERT
@@ -121,8 +121,8 @@
 
             var memoizationContainer = new Dictionary<Tuple<int, int>, string>();
             var memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                .UsingTuples()
+                .Within(memoizationContainer)
                 .From<int, int, string>(toString2);
 
             // ACT
@@ -143,8 +143,8 @@
 
             var memoizationContainer = new Dictionary<Tuple<int, int>, string>();
             var memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                .UsingTuples()
+                .Within(memoizationContainer)
                 .From<int, int, string>(toString2);
 
             memoized(1, 2);
@@ -173,8 +173,8 @@
             Assert.Throws<InvalidCastException>(() =>
             {
                 Func<int, int, string> memoized = new MemoizationBuilder()
-                    .MapFromParameterTuples()
-                    .StoreInExternalDictionaryWithStrongReferences(memoizationContainer)
+                    .UsingTuples()
+                    .Within(memoizationContainer)
                     .From<int, int, string>(toString2);
             });
         }

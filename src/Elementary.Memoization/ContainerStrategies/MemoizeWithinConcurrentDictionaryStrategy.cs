@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Concurrent;
 
-    internal sealed class MemoizeStrongReferencesThreadSafeStrategy : IMemoizationContainerStrategy
+    internal sealed class MemoizeWithinConcurrentDictionaryStrategy : IMemoizationContainerStrategy
     {
         public Func<K, V> CreateNew<K, V>(Func<K, V> toMemoize)
         {

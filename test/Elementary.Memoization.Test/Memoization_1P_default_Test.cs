@@ -5,7 +5,7 @@
     using System;
 
     [TestFixture]
-    public class Memoization_1P_TSweak_Test
+    public class Memoization_1P_default_Test
     {
         private int toStringCalled = 0;
 
@@ -22,14 +22,11 @@
         {
             this.toStringCalled = 0;
 
-            this.memoized = new MemoizationBuilder()
-                .UsingTuples()
-                .WithinDictionaryWithWeakReferences()
-                .From<int, string>(this.toString);
+            this.memoized = MemoizationBuilder.Default.From<int, string>(this.toString);
         }
 
         [Test]
-        public void Memoization_1P_TSweak_function_is_called()
+        public void  Memoization_1P_default_function_is_called_once()
         {
             // ACT
 
@@ -42,7 +39,7 @@
         }
 
         [Test]
-        public void Memoization_1P_TSweak_function_is_not_called_twice_for_same_parameter()
+        public void  Memoization_1P_default_function_is_not_called_twice_for_same_parameter()
         {
             // ARRANGE
 
@@ -59,7 +56,7 @@
         }
 
         [Test]
-        public void Memoization_1P_TSweak_function_is_called_again_for_different_parameter()
+        public void  Memoization_1P_default_function_is_called_again_for_different_parameter()
         {
             // ARRANGE
 

@@ -1,6 +1,6 @@
 ﻿{
   "title": "Elementary.Memoization",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "copyright": "Copyright ©  2016",
   "description": "Provides a lightweight, fast and extensible micro cache through memoization",
   "authors": [ "Wolfgang Gross" ],
