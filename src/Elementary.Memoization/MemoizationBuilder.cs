@@ -52,6 +52,19 @@
             return new SelectStorageFactory(this);
         }
 
+        /// <summary>
+        /// Returns a memoized enuzmerable hoplding all items retrieved from the <paramref name="source"/> in a list.
+        /// The <paramref name="source"/> is called only if an item isn't memoized yet. All Emumerator instances returned fro teh enumerable 
+        /// share the item cache.
+        /// </summary>
+        /// <typeparam name="T">type of enumeration items</typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public IEnumerable<T> From<T>(IEnumerable<T> source)
+        {
+            return new MemoizedEnumerable<T>(source);
+        }
+
         #endregion Builder allows to select the delegate builder factory
 
         #region Builder allows to select a storage factory
