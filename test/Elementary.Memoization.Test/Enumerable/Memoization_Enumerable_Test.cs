@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Elementary.Memoization.Test.Enumerable
 {
@@ -22,30 +23,6 @@ namespace Elementary.Memoization.Test.Enumerable
 
             Assert.IsNotNull(result);
             Assert.AreNotSame(result, enumerable);
-        }
-
-        [Test]
-        public void Memoized_Enumerable_creates_Enumerator()
-        {
-            // ARRANGE
-
-            var enumerator = new Mock<IEnumerator<int>>();
-            var enumerable = new Mock<IEnumerable<int>>();
-
-            enumerable.Setup(e => e.GetEnumerator()).Returns(enumerator.Object);
-
-            var memoized = new MemoizationBuilder().From(enumerable.Object);
-
-            // ACT
-
-            var result = memoized.GetEnumerator();
-
-            // ASSERT
-
-            Assert.IsNotNull(result);
-            Assert.AreNotSame(result, enumerable);
-            enumerable.Verify(e => e.GetEnumerator(), Times.Once());
-            enumerable.VerifyAll();
         }
 
         [Test]
@@ -82,6 +59,7 @@ namespace Elementary.Memoization.Test.Enumerable
             // ARRANGE
 
             var enumerator = new Mock<IEnumerator<int>>();
+            enumerator.Setup(e => e.MoveNext()).Returns(true);
             enumerator.SetupGet(e => e.Current).Returns(3);
 
             var enumerable = new Mock<IEnumerable<int>>();
@@ -92,7 +70,7 @@ namespace Elementary.Memoization.Test.Enumerable
 
             // ACT
 
-            var result = memoized.GetEnumerator().Current;
+            var result = memoized.First();
 
             // ASSERT
 
@@ -100,58 +78,65 @@ namespace Elementary.Memoization.Test.Enumerable
 
             enumerable.Verify(e => e.GetEnumerator(), Times.Once());
             enumerable.VerifyAll();
+            enumerator.Verify(e => e.MoveNext(), Times.Once());
             enumerator.Verify(e => e.Current, Times.Once());
-            enumerable.VerifyAll();
+            enumerator.VerifyAll();
         }
 
         [Test]
-        public void Memoized_Enumerator_calls_sources_Reset()
+        public void Memoized_Enumerator_calls_sources_Current_only_once()
         {
             // ARRANGE
 
-            var enumerator = new Mock<IEnumerator<int>>();
+            var firstItem = "item";
+            var enumerator = new Mock<IEnumerator<string>>();
+            enumerator.Setup(e => e.MoveNext()).Returns(true);
+            enumerator.SetupGet(e => e.Current).Returns(firstItem);
 
-            var enumerable = new Mock<IEnumerable<int>>();
+            var enumerable = new Mock<IEnumerable<string>>();
 
             enumerable.Setup(e => e.GetEnumerator()).Returns(enumerator.Object);
 
             var memoized = new MemoizationBuilder().From(enumerable.Object);
+            var firstResult = memoized.First();
 
             // ACT
 
-            memoized.GetEnumerator().Reset();
+            var result = memoized.First();
 
             // ASSERT
 
+            Assert.AreSame(firstResult, result);
+
             enumerable.Verify(e => e.GetEnumerator(), Times.Once());
             enumerable.VerifyAll();
-            enumerator.Verify(e => e.Reset(), Times.Once());
-            enumerable.VerifyAll();
+            enumerator.Verify(e => e.MoveNext(), Times.Once());
+            enumerator.Verify(e => e.Current, Times.Once());
+            enumerator.VerifyAll();
         }
 
         [Test]
-        public void Memoized_Enumerator_calls_sources_Dispose()
+        public void Memoized_Enumerator_calls_sources_Current_on_complete_enumeration_2()
         {
             // ARRANGE
 
-            var enumerator = new Mock<IEnumerator<int>>();
-
-            var enumerable = new Mock<IEnumerable<int>>();
-
-            enumerable.Setup(e => e.GetEnumerator()).Returns(enumerator.Object);
-
-            var memoized = new MemoizationBuilder().From(enumerable.Object);
+            var innerList = new List<string>() { "item1", "item2" };
+            int called = 0;
+            var innerEnumerable = innerList.Select(i => { called++; return i; });
+            var memoized = new MemoizationBuilder().From(innerEnumerable);
+            var firstResult = memoized.First();
 
             // ACT
 
-            memoized.GetEnumerator().Dispose();
+            var result = memoized.ToArray();
 
             // ASSERT
 
-            enumerable.Verify(e => e.GetEnumerator(), Times.Once());
-            enumerable.VerifyAll();
-            enumerator.Verify(e => e.Dispose(), Times.Once());
-            enumerable.VerifyAll();
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("item1", firstResult);
+            Assert.AreEqual("item1", result[0]);
+            Assert.AreEqual("item2", result[1]);
+            Assert.AreEqual(2, called);
         }
     }
 }

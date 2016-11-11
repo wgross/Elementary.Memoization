@@ -280,7 +280,7 @@ Task init_coverage {
     $script:openCoverConsole = Get-ChildItem -Path $script:coverageResultsDirectory -Filter OpenCover.Console.Exe -Recurse | Select-Object -ExpandProperty FullName
 
     # Get ReportGenerator
-    & $script:nuget install ReportGenerator -Output $script:coverageResultsDirectory
+    & $script:nuget install ReportGenerator -Output $script:coverageResultsDirectory -Version 2.5.0
 
     # Get Hold on ReportGerenator executable
     $script:reportGenerator = Get-ChildItem -Path $script:coverageResultsDirectory -Filter ReportGenerator.Exe -Recurse | Select-Object -ExpandProperty FullName
