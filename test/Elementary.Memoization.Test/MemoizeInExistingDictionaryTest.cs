@@ -48,6 +48,21 @@
             Assert.IsNotNull(memoized);
         }
 
+        [Test]
+        public void Memoize_1P_throws_for_null_dictionary()
+        {
+            // ACT
+
+            var result = Assert.Throws<ArgumentNullException>(() => new MemoizationBuilder()
+                .UsingTuples()
+                .Within((Dictionary<int, string>)null)
+                .From<int, string>(toString));
+
+            // ASSERT
+
+            Assert.IsNotNull(result);
+        }
+
         //[Test]
         //public void Memoize_1P_in_existing_dictionary_alternative()
         //{
@@ -162,7 +177,7 @@
         }
 
         [Test]
-        public void Memoize_2P_in_existing_dictionary_with_wromg_type_fails()
+        public void Memoize_2P_in_existing_dictionary_with_wrong_type_fails()
         {
             // ARRANGE
 

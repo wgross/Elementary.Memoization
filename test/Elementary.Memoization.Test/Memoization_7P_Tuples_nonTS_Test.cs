@@ -23,7 +23,7 @@
             this.toStringCalled = 0;
 
             this.memoized = new MemoizationBuilder()
-                .UsingCurrying()
+                .UsingTuples()
                 .WithinDictionary()
                 .From<int, int, int, int, int, int, int, string>(this.toString);
         }
