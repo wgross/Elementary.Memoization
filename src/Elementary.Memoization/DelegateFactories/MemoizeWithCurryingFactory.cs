@@ -9,7 +9,7 @@
     /// n Parameters at one delegates instead 1 paramet at a delegate, returning a delegate receiving n-1 parameters.
     /// Building is more expensive as with memoization based on Tuples, but the lookup is fast as hell!
     /// </summary>
-    internal sealed class MemoizeWithDelegatesFactory : MemoizationFactoryBase, IMemoizationDelegateFactory
+    internal sealed class MemoizeWithCurryingFactory : MemoizationFactoryBase, IMemoizationDelegateFactory
     {
         #region Curryied memoization results to delegates by using partial application: The function returns a function receiving one parameter less
 

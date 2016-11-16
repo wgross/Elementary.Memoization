@@ -22,8 +22,8 @@
         {
             this.toStringCalled = 0;
             this.memoized = new MemoizationBuilder()
-                .MapFromParameterTuples()
-                .StoreInConcurrentDictionaryWithStrongReferences()
+                .UsingTuples()
+                .WithinConcurrentDictionary()
                 .From<int, int, string>(this.toString);
         }
 
