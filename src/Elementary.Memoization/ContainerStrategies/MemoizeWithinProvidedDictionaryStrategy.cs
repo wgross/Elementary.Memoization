@@ -7,6 +7,9 @@
     {
         public MemoizeWithinProvidedDictionaryStrategy(object dictionaryToUse)
         {
+            if (dictionaryToUse == null)
+                throw new ArgumentNullException(nameof(dictionaryToUse));
+
             this.dictionary = dictionaryToUse;
         }
 
