@@ -147,8 +147,8 @@ Task test_assemblies -description "Run the unit test under 'test'. Output is wri
                 # the projects directory name is taken as the name of the test result file.
                 &  $script:dotnet test -result:$testResultFileName
                 
-                # After the tes run teh rsults are paresd and stired to a scriot var
-                $script:test_assemblies_results = Get-TestResults
+                # After the tes run the results are paresd and stored to a script var
+                $script:test_assemblies_results += Get-TestResults
             }
         
         } finally {
@@ -164,7 +164,7 @@ Task report_test_assemblies -description "Retrieves a report of failed tests" {
     if($script:test_assemblies_results) {
         $script:test_assemblies_results
     } else {
-        "No test failed: $($_.Name)" | Write-Host -ForegroundColor Green
+        "No test failed." | Write-Host -ForegroundColor Green
     }
 
 } -depends query_workspace,init_assemblies
@@ -227,7 +227,7 @@ Task build_packages -description "Create nuget packages from all projects having
         }
     }
 
-} -depends query_workspace,init_packages
+} -depends query_workspace,init_packages,clean_packages
 
 Task publish_packages -description "Makes the packages known to the used package source" {
     
@@ -291,7 +291,7 @@ Task clean_coverage {
     Remove-Item -Path $PSScriptRoot\.coverage\* -Include @("*.xml","*.htm","*.png","*.css","*.js") -ErrorAction SilentlyContinue
 }
 
-Task measure_coverage -description "Run the unit test under 'test' to measure the tests coverage. Output is written to .coverage directory" {
+Task build_coverage -description "Run the unit test under 'test' to measure the tests coverage. Output is written to .coverage directory" {
 
     # Run test projects with openCover and collect result separted by project in an XML file.
     
@@ -303,7 +303,7 @@ Task measure_coverage -description "Run the unit test under 'test' to measure th
         }
     }
 
-} -depends query_workspace,init_coverage
+} -depends query_workspace,init_coverage,clean_coverage
 
 Task report_coverage -description "Creates a report of the collected coverage data" {
 
@@ -335,5 +335,5 @@ Task default -depends clean,restore,build,test,pack
 
 Task publish -description "All artefacts are published to their destinations" -depends publish_packages
 Task report -description "Calls all reports" -depends report_test_assemblies
-Task coverage -description "Starts a  coverage analysys of the workspace" -depends measure_coverage,report_coverage
+Task coverage -description "Starts a  coverage analysys of the workspace" -depends build_coverage,report_coverage
 Task measure -description "The project is measured: all benchmarks are running" -depends build_assemblies,measure_assemblies
