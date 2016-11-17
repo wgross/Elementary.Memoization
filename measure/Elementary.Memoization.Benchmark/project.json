@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "BenchmarkDotNet": "0.9.9",
-    "Elementary.Memoization": "2.0.0"
+    "Elementary.Memoization": {
+      "target": "project"
+    }
   },
   "frameworks": {
     "netcoreapp1.0": {

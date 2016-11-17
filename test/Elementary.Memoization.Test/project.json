@@ -1,7 +1,9 @@
 {
   "version": "1.0.0-*",
   "dependencies": {
-    "Elementary.Memoization": "2.0.0",
+    "Elementary.Memoization": {
+      "target": "project"
+    },
     "NUnit": "3.4.1",
     "dotnet-test-nunit": "3.4.0-beta-2"
   },
