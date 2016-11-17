@@ -80,8 +80,7 @@ function Get-TestResults {
     Get-ChildItem -Path $script:testResultsDirectory -Filter *.xml | ForEach-Object {        
         
         # This works for nunit ... but xunit?
-
-        $script:test_assemblies_results = (Select-Xml -Path $_.FullName -XPath "//test-case[@result != 'Passed']").Node | Select name,result
+        (Select-Xml -Path $_.FullName -XPath "//test-case[@result != 'Passed']").Node | Select name,result
     }
 }
 
@@ -319,9 +318,11 @@ Task report_coverage -description "Creates a report of the collected coverage da
 #endregion
 
 Task update_self {
+
     # Update this script directly from github
     Invoke-RestMethod https://raw.githubusercontent.com/wgross/PSake.NetCore/master/libs_and_tests.ps1 -OutFile $PSScriptRoot\default.ps1
-}
+
+} -description "Update the default.ps1 file directly from github"
 
 #
 # The default build pipeline
