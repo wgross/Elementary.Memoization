@@ -17,8 +17,6 @@ Memoization optimizes execution of programs by caching function results: [Memoiz
 An implementation of memoization in C# can be done quite elegantly by creating a delegate which matches the calculating functions declaration but holding as well a dictionary instance mapping tuples of function parameters to function results:
 
 ```
-#!c#
-
 Func<int,int,int> memoizedSumFunction = (a,b) => { 
   var cache = new Dictionary<Tuple<int,int>,int>();
   var parameters = Tuple.Create(a,b);
@@ -32,8 +30,6 @@ Func<int,int,int> memoizedSumFunction = (a,b) => {
   return result
 }
 ```
-
-#Elementary.Memoization as an Implemention#
 
 Elementary.Memoization provides an extensible and reusable implementation of this memoization.
 
