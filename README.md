@@ -1,6 +1,14 @@
 #User Story#
 
-As a developer I don't want a time consuming calculation made twice with the same parameter set. Instead I want to reuse a previous result. 
+As a developer I want to resuse results of time consuming calculations to implreve the performance of code that would invoke the calculation multiple times. 
+
+# Installation #
+
+A Nuget package of the is provided at [Nuget.org](https://www.nuget.org/packages/Elementary.Memoization/). 
+
+```
+Install-Package Elementary.Memoization 
+```
 
 #Memoization as Solution Idea#
 
@@ -82,17 +90,4 @@ var result1 = memoized(1, 2, 3); // first call calculates
 
 var result2 = memoized(1, 2, 3); // second call is answered with the cached result
 
-```
-
-# Installation #
-
-A Nuget package of the current version is provided at [Nuget.org](https://www.nuget.org/packages/Elementary.Memoization/). 
-The package contains a portable class library supporting most of the current patforms and a library for Silverlight 5 without the dependency to *System.Collections.Concurrent*.
-
-To install from Visual Studio Powershell:
-
-```
-#!PS#
-
-Install-Package Elementary.Memoization 
 ```
