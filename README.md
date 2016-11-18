@@ -10,11 +10,11 @@ A Nuget package of the is provided at [Nuget.org](https://www.nuget.org/packages
 Install-Package Elementary.Memoization 
 ```
 
-#Memoization as Solution Idea#
+#Implementation#
 
 Memoization optimizes execution of programs by caching function results: [Memoization in Wikipedia](http://en.wikipedia.org/wiki/Memoization).
 
-An implementation of memoization in C# can be done quite elegantly by creating a delegate matching the functions declaration but holding as well a dictionary instance mapping tuples of function parameters to function results: 
+An implementation of memoization in C# can be done quite elegantly by creating a delegate which matches the calculating functions declaration but holding as well a dictionary instance mapping tuples of function parameters to function results:
 
 ```
 #!c#
